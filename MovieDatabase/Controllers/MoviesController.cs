@@ -1,0 +1,86 @@
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using MovieDatabase.Models;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
+
+namespace MovieDatabase.Controllers
+{
+  [Authorize]
+  public class MoviesController : Controller
+  {
+    private readonly MovieDatabaseContext _db;
+    private readonly UserManager<ApplicationUser> _userManager;
+    public MoviesController(UserManager<ApplicationUser> userManager, MovieDatabaseContext db)
+    {
+      _userManager = userManager;
+      _db = db;
+    }
+
+    [AllowAnonymous]
+    public ActionResult Index()
+    {
+      return View();
+    }
+
+    public ActionResult Create()
+    {
+      return View();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Create(Movie movie)
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      movie.User = currentUser;
+      _db.Movies.Add(movie);
+      _db.Savechanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Details(int id)
+    {
+      var thisMovie = _db.Movies.FirstOrDefault(movie => movie.MovieId == id);
+      return View(thisMovie);
+    }
+
+    public ActionResult Edit(int id)
+    {
+      var thisMovie = _db.Movies.FirstOrDefault(movie => movie.MovieId == id);
+      return ViewModels(thisMovie);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Edit(Movie movie)
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      movie.User = currentUser;
+      _db.Entry(movie).State = EntityState.Modified;
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Delete(int id)
+    {
+      var thisMovie = _db.Items.FirstOrDefault(movie => movie.MovieId == id);
+      return ViewModels(thisMovie);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public async Task<ActionResult> DeleteConfirmed(int id)
+    {
+      var thisMovie = _db.Movies.FirstOrDefault(movie => movie.MovieId == id);
+      _db.Movies.Remove(thisMovie);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+      
+    }
+  }
+}
