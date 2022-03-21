@@ -30,17 +30,23 @@ namespace MovieDatabase.Controllers
 
     public ActionResult Create()
     {
+      ViewBag.GenreId = new SelectList(_db.Genres, "GenreId", "Name");
       return View();
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(Movie movie)
+    public async Task<ActionResult> Create(Movie movie, int GenreId)
     {
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
       movie.User = currentUser;
       _db.Movies.Add(movie);
       _db.Savechanges();
+      if (GenreId != 0)
+      {
+        _db.GenreMovie.Add(new GenreItem(){GenreId = GenreId, MovieId = movie.MovieId});
+        _db.SaveChanges();
+      }
       return RedirectToAction("Index");
     }
 
@@ -67,6 +73,23 @@ namespace MovieDatabase.Controllers
       return RedirectToAction("Index");
     }
 
+    public ActionResult AddGenre(int id)
+    {
+      var thisMovie = _db.Movies.FirstOrDefault(movie => movie.MovieId == id);
+      ViewBag.GenreId = new SelectList(_db.Genres, "GenreId", "Name");
+      return View(thisMovie);
+    }
+
+    [HttpPost]
+    public ActionResult AddGenre(Movie movie, int GenreId)
+    {
+      if(GenreId != 0)
+      {
+        _db.GenreMovie.Add(new GenreMovie(){GenreId = GenreId, MovieId = movie.MovieId});
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Index");
+    }
     public ActionResult Delete(int id)
     {
       var thisMovie = _db.Items.FirstOrDefault(movie => movie.MovieId == id);
@@ -80,7 +103,15 @@ namespace MovieDatabase.Controllers
       _db.Movies.Remove(thisMovie);
       _db.SaveChanges();
       return RedirectToAction("Index");
-      
+    }
+
+    [HttpPost]
+    public ActionResult DeleteGenre(int joinId)
+    {
+      var joinEntry = _db.GenreMovie.FirstOrDefault(entry => entry.GenreMovieId == joinId);
+      _db.GenreMovie.Remove(joinEntry);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
   }
 }

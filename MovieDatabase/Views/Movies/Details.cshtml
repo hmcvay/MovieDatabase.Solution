@@ -1,0 +1,11 @@
+@{
+  Layout = "_Layout";
+}
+
+@model MovieDatabase.Models.Movie
+
+<h2>Movie Details</h2>
+
+<h3>@Html.DisplayNameFor(model => model.Title): @Html.DisplayFor(model => model.Description)</h3>
+
+@if(@Model.JoinEntities.Count == 0)

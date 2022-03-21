@@ -1,6 +1,6 @@
 namespace MovieDatabase.Models
 {
-  public class Staff
+  public class Staff : IdentityUser
   {
     public int StaffId { get; set; }
     public string FirstName { get; set; }
