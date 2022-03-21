@@ -1,0 +1,47 @@
+WHAT WE DOING?
+
+
+
+
+
+
+
+
+
+
+
+
+movie:
+  movie id 
+  year
+  title
+  description
+
+
+patron
+  patron id
+  first name
+  last name
+  address
+  phone number
+  User AIdentity
+
+staff
+  staff id
+  first name
+  last name
+  User AIdentity
+
+copies
+  movie id
+  count (will be done by searching movie.title and counting the instances)
+    
+
+rental
+  rental id
+  movie id
+  patron id
+  date out
+  date to return
+  amount due
+
