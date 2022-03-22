@@ -7,7 +7,7 @@ namespace MovieDatabase.Models
 
   public Patron()
   {
-    this.JoinEntities = new HashSet <Rentals>();
+    this.JoinEntities = new HashSet <Rental>();
   }
   public int PatronId { get; set; }
   public string FirstName { get; set; }
@@ -16,6 +16,6 @@ namespace MovieDatabase.Models
   public string PhoneNumber { get; set; }
   
   public virtual ApplicationUser User { get; set; } 
-  public virtual ICollection<Rentals> JoinEntities { get; set; }
+  public virtual ICollection<Rental> JoinEntities { get; set; }
   }
 }

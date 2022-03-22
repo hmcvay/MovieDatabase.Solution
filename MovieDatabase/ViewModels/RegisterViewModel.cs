@@ -7,8 +7,19 @@ namespace MovieDatabase.ViewModels
     [Required]
     [FirstName]
     [Display(Name = "First Name")]
+    public string FirstName {get;set;}
 
     [Required]
+    [LastName]
+    [Display(Name = "Last Name")]
+
+    [Required]
+    [Address]
+    [Display(Name = "Address")]
+
+    [Required]
+    [PhoneNumber]
+    [Display(Name = "Phone Number")]
   }
 }
 

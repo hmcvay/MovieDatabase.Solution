@@ -59,7 +59,7 @@ namespace MovieDatabase.Controllers
     public ActionResult Edit(int id)
     {
       var thisMovie = _db.Movies.FirstOrDefault(movie => movie.MovieId == id);
-      return ViewModels(thisMovie);
+      return View(thisMovie);
     }
 
     [HttpPost]
@@ -92,8 +92,8 @@ namespace MovieDatabase.Controllers
     }
     public ActionResult Delete(int id)
     {
-      var thisMovie = _db.Items.FirstOrDefault(movie => movie.MovieId == id);
-      return ViewModels(thisMovie);
+      var thisMovie = _db.Movies.FirstOrDefault(movie => movie.MovieId == id);
+      return View(thisMovie);
     }
 
     [HttpPost, ActionName("Delete")]
