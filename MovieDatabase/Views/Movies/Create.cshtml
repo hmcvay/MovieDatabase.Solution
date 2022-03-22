@@ -1,0 +1,26 @@
+@{
+  Layout = "_Layout";
+}
+
+@model MovieDatabase.Models.Movie
+
+<h4>Add a new movie</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Title)
+  @Html.TextBoxFor(model => model.Title)
+
+  @Html.LabelFor(model => model.Year)
+  @Html.TextBoxFor(model => model.Year)
+
+  @Html.LabelFor(model => model.Description)
+  @Html.TextBoxFor(model => model.Description)
+
+  @Html.Label("Select Genre")
+  @Html.DropDownList("GenreId")
+
+  <input type="submit" value="Add new Movie" />
+}
+
+<p>@Html.ActionLink("Show all movies", "Index")</p>

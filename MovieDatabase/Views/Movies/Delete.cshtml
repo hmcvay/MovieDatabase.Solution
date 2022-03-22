@@ -1,0 +1,15 @@
+@{
+  Layout = "_Layout";
+}
+
+@model MovieDatabase.Models.Movie
+
+<h2>Delete this movie from the database?</h2>
+
+@Html.DisplayNameFor(model => model.Title): @Html.DisplayFor(model => model.Title)
+@using (Html.BeginForm())
+{
+  <input type="submit" value="Delete" />
+}
+
+@Html.ActionLink("Back to movie list", "Index")

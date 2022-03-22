@@ -1,0 +1,16 @@
+@{
+  Layout = "_Layout";
+}
+
+@model MovieDatabase.Models.Movie
+<h2>Add a genre</h2>
+<h4>Add a genre to this movie : @Html.DisplayFor(model => model.Title)</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.MovieId)
+  @Html.Label("Select genre")
+  @Html.DropDownList("GenreId")
+  <input type="submit" value="Save"/>
+}
+<p>@Html.ActionLink("Back to list", "Index")</p>

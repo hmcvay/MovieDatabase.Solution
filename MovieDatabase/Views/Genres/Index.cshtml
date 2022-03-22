@@ -1,0 +1,25 @@
+@{
+  Layout = "_Layout";
+}
+
+@using MovieDatabase.Models;
+
+
+<h1>Genres</h1>
+
+@if (Model.Count == 0)
+{
+  <h3>Nothing Here!</h3>
+}
+else
+{
+  <ul>
+  @foreach (Genre genre in Model)
+  {
+    <li>@Html.ActionLink($"{genre.Name}", "Details", new { id = genre.GenreId }) </li>
+  }
+  </ul>
+}
+
+<p>@Html.ActionLink("Add new genre", "Create")</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>

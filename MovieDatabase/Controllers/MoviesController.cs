@@ -25,7 +25,7 @@ namespace MovieDatabase.Controllers
     [AllowAnonymous]
     public ActionResult Index()
     {
-      return View();
+      return View(_db.Movies.ToList());
     }
 
     public ActionResult Create()
@@ -41,10 +41,10 @@ namespace MovieDatabase.Controllers
       var currentUser = await _userManager.FindByIdAsync(userId);
       movie.User = currentUser;
       _db.Movies.Add(movie);
-      _db.Savechanges();
+      _db.SaveChanges();
       if (GenreId != 0)
       {
-        _db.GenreMovie.Add(new GenreItem(){GenreId = GenreId, MovieId = movie.MovieId});
+        _db.GenreMovie.Add(new GenreMovie(){GenreId = GenreId, MovieId = movie.MovieId});
         _db.SaveChanges();
       }
       return RedirectToAction("Index");
@@ -59,6 +59,7 @@ namespace MovieDatabase.Controllers
     public ActionResult Edit(int id)
     {
       var thisMovie = _db.Movies.FirstOrDefault(movie => movie.MovieId == id);
+      ViewBag.GenreId = new SelectList(_db.Genres, "GenreId", "Name");
       return View(thisMovie);
     }
 
@@ -97,7 +98,7 @@ namespace MovieDatabase.Controllers
     }
 
     [HttpPost, ActionName("Delete")]
-    public async Task<ActionResult> DeleteConfirmed(int id)
+    public ActionResult DeleteConfirmed(int id)
     {
       var thisMovie = _db.Movies.FirstOrDefault(movie => movie.MovieId == id);
       _db.Movies.Remove(thisMovie);

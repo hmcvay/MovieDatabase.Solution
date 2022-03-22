@@ -1,5 +1,17 @@
 WHAT WE DOING?
 
+What needs to be done:
+
+
+
+
+add a rental class/table
+-within movie details click "rent"
+add copies class/table
+
+figure out roles
+
+User account view show rentals
 
 
 
@@ -8,17 +20,7 @@ WHAT WE DOING?
 
 
 
-
-
-
-movie:
-  movie id 
-  year
-  title
-  description
-
-
-patron
+patron  (Currently uses just one user.)
   patron id
   first name
   last name
@@ -35,7 +37,7 @@ staff
 copies
   movie id
   count (will be done by searching movie.title and counting the instances)
-    
+
 
 rental
   rental id
@@ -45,3 +47,61 @@ rental
   date to return
   amount due
 
+
+
+namespace MovieDatabase.Models
+{
+  public class Staff 
+  {
+    public int StaffId { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public virtual ApplicationUser User { get; set; } 
+
+  }
+}
+
+
+using System.Collections.Generic;
+
+namespace MovieDatabase.Models
+{
+  public class Patron
+  {
+
+  public Patron()
+  {
+    this.JoinEntities = new HashSet <Rental>();
+  }
+  // public int PatronId { get; set; }
+  // public string FirstName { get; set; }
+  // public string LastName { get; set; }
+  // public string Address { get; set; }
+  // public string PhoneNumber { get; set; }
+  public bool Status { get; set; }
+  public virtual ApplicationUser User { get; set; }
+  public virtual ICollection<Rental> JoinEntities { get; set; }
+  }
+}
+
+using System;
+namespace MovieDatabase.Models
+{
+  public class Rental
+  {
+    public int RentalId { get; set; }
+    public int MovieId{ get; set; }
+    public int PatronId{ get; set; }
+    public DateTime DateRented { get; set; }
+    public DateTime DueDate { get; set; }
+    public int RentalTotal { get; set; }
+
+    public virtual Movie Movie { get; set; }
+    public virtual Patron Patron { get; set; }
+  }
+}
+  // rental id
+  // movie id
+  // patron id
+  // date out
+  // date to return

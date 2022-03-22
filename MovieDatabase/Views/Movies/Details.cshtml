@@ -6,6 +6,30 @@
 
 <h2>Movie Details</h2>
 
-<h3>@Html.DisplayNameFor(model => model.Title): @Html.DisplayFor(model => model.Description)</h3>
+<h3>@Html.DisplayNameFor(model => model.Title): @Html.DisplayFor(model => model.Title)</h3>
+<h4>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model=> model.Description)</h4>
+<!-- //RENTAL.JOIN STUFF// -->
 
 @if(@Model.JoinEntities.Count == 0)
+{
+  <p>This movie is not associated with any genre.</p>
+}
+else
+{
+  <h4>Genres this movie belongs to:</h4>
+  <ul>
+  @foreach (var join in Model.JoinEntities)
+  {
+    <li>@join.Genre.Name</li>
+    @using (Html.BeginForm("DeleteGenre", "Movies"))
+    {
+      @Html.Hidden("joinId", @join.GenreMovieId)
+      <input type="submit" value="Delete">
+    }
+  }
+  </ul>
+}
+<p>@Html.ActionLink("Add a genre", "AddGenre", new { id = Model.MovieId })</p>
+<p>@Html.ActionLink("Back to list", "Index")</p>
+<p>@Html.ActionLink("Edit Movie", "Edit", new { id = Model.MovieId })</p>
+<p>@Html.ActionLink("Delete Movie", "Delete", new { id = Model.MovieId })</p>

@@ -1,13 +1,17 @@
 @{
-  Layout = "Layout";
+  Layout = "_Layout";
 }
 
 @using MovieDatabase.Models;
-@model IEnumerable<MovieDatabase.Models.Movie>
+@model List<MovieDatabase.Models.Movie>
 
 <h1>Rentable Movies</h1>
 
-@if (Model.Any())
+@if (Model.Count == 0)
+{
+  <h3>Fresh out!</h3>
+}
+else
 {
   <ul>
   @foreach (Movie movie in Model)
@@ -16,10 +20,7 @@
   }
   </ul>
 }
-else 
-{
-  <h3>Fresh out!</h3>
-}
+
 
 <p>@Html.ActionLink("Add new movie", "Create")</p>
 <p>@Html.ActionLink("Home", "Index", "Home")</p>
