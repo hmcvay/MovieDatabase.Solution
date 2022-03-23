@@ -13,7 +13,7 @@ figure out roles
 
 User account view show rentals
 
-
+*search function
 
 
 
@@ -42,7 +42,7 @@ copies
 rental
   rental id
   movie id
-  patron id
+  user id
   date out
   date to return
   amount due

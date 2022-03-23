@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieDatabase.Models;
 
 namespace MovieDatabase.Migrations
 {
     [DbContext(typeof(MovieDatabaseContext))]
-    partial class MovieDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220323160614_second")]
+    partial class second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,15 +255,6 @@ namespace MovieDatabase.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("IsCheckedOut")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("RentOutDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("RentalTotal")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -276,27 +269,6 @@ namespace MovieDatabase.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Movies");
-                });
-
-            modelBuilder.Entity("MovieDatabase.Models.Rental", b =>
-                {
-                    b.Property<int>("RentalId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RentalId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("Rentals");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -378,26 +350,6 @@ namespace MovieDatabase.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MovieDatabase.Models.Rental", b =>
-                {
-                    b.HasOne("MovieDatabase.Models.ApplicationUser", null)
-                        .WithMany("JoinEntities")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("MovieDatabase.Models.Movie", "Movie")
-                        .WithMany("JoinEntities1")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-                });
-
-            modelBuilder.Entity("MovieDatabase.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("JoinEntities");
-                });
-
             modelBuilder.Entity("MovieDatabase.Models.Genre", b =>
                 {
                     b.Navigation("JoinEntities");
@@ -406,8 +358,6 @@ namespace MovieDatabase.Migrations
             modelBuilder.Entity("MovieDatabase.Models.Movie", b =>
                 {
                     b.Navigation("JoinEntities");
-
-                    b.Navigation("JoinEntities1");
                 });
 #pragma warning restore 612, 618
         }

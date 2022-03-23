@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieDatabase.Models;
 
 namespace MovieDatabase.Migrations
 {
     [DbContext(typeof(MovieDatabaseContext))]
-    partial class MovieDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220323203326_fourth")]
+    partial class fourth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,9 +258,6 @@ namespace MovieDatabase.Migrations
                     b.Property<string>("IsCheckedOut")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime>("RentOutDate")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int>("RentalTotal")
                         .HasColumnType("int");
 
@@ -284,17 +283,20 @@ namespace MovieDatabase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
                     b.HasKey("RentalId");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("MovieId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Rentals");
                 });
@@ -380,17 +382,19 @@ namespace MovieDatabase.Migrations
 
             modelBuilder.Entity("MovieDatabase.Models.Rental", b =>
                 {
-                    b.HasOne("MovieDatabase.Models.ApplicationUser", null)
-                        .WithMany("JoinEntities")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("MovieDatabase.Models.Movie", "Movie")
                         .WithMany("JoinEntities1")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MovieDatabase.Models.ApplicationUser", "User")
+                        .WithMany("JoinEntities")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Movie");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MovieDatabase.Models.ApplicationUser", b =>

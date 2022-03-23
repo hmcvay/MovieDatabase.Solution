@@ -28,7 +28,12 @@ else
     }
   }
   </ul>
+    
+    @Html.ActionLink("Rent", "Rent", new { id = Model.MovieId })
+  
+
 }
+
 <p>@Html.ActionLink("Add a genre", "AddGenre", new { id = Model.MovieId })</p>
 <p>@Html.ActionLink("Back to list", "Index")</p>
 <p>@Html.ActionLink("Edit Movie", "Edit", new { id = Model.MovieId })</p>

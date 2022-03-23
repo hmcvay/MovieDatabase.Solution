@@ -114,5 +114,36 @@ namespace MovieDatabase.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
+    public ActionResult Rent(int id)
+    {
+      var thisMovie = _db.Movies.FirstOrDefault(movie=> movie.MovieId == id);
+      return View(thisMovie);
+    }
+
+    [HttpPost, ActionName("Rent")]
+    public async Task<ActionResult> RentMovie(Movie movie, int MovieId)
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var thisMovie = _db.Movies.FirstOrDefault(movie=> movie.MovieId == MovieId);
+      thisMovie.User = currentUser;
+      thisMovie.IsCheckedOut = "true";
+      _db.Entry(thisMovie).State = EntityState.Modified;
+      _db.Rentals.Add(new Rental(){MovieId = thisMovie.MovieId});
+      _db.SaveChanges();
+      
+      return RedirectToAction("Index");
+    }
   }
 }
+
+
+
+// public ActionResult DeleteConfirmed(int id)
+//     {
+//       var thisItem = _db.Items.FirstOrDefault(items => items.ItemId == id);
+//       _db.Items.Remove(thisItem);
+//       _db.SaveChanges();
+//       return RedirectToAction("Index");
+//     }

@@ -17,6 +17,12 @@
   @Html.LabelFor(model => model.Description)
   @Html.TextBoxFor(model => model.Description)
 
+  @Html.LabelFor(model => model.IsCheckedOut)
+  @Html.Label("True")
+  @Html.RadioButtonFor(model => model.IsCheckedOut, "true")
+  @Html.Label("False")
+  @Html.RadioButtonFor(model => model.IsCheckedOut, "false")
+
   @Html.Label("Select Genre")
   @Html.DropDownList("GenreId")
 

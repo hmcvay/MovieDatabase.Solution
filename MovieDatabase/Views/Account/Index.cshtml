@@ -5,11 +5,22 @@
 @using System.Security.Claims
 
 
+
 <h2>Welcome to EpiRentals!</h2>
 <hr />
 @if (User.Identity.IsAuthenticated)
 {
     <p>Hello @User.Identity.Name!</p>
+    @if(Model.Any()
+    {
+        @foreach(Rental rental in Model)
+        {
+            <li>@Html.ActionLink($"{Rental.Movie.Title}", "Details", new{id = movie.MovieId})
+        }
+    })
+    <p>Here are the movies you have rented right now!</p>
+    
+
     <p>@Html.ActionLink("Go to movies", "Index", "Movies")</p>
     @using (Html.BeginForm("LogOff", "Account"))
     {

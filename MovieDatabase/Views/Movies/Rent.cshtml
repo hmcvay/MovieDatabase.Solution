@@ -1,0 +1,19 @@
+@{
+  Layout = "_Layout";
+}
+
+@model MovieDatabase.Models.Movie
+
+<h2>Rent this movie?</h2>
+
+@Html.DisplayNameFor(model => model.Title): @Html.DisplayFor(model => model.Title)
+@Html.Label("Price for rental"): $ @Html.DisplayFor(model => model.RentalPrice)
+@Html.Label("Date to check out"): @Html.TextBoxFor(model=> model.RentOutDate, new {type ="date", required = "required"})
+@Html.Label("Rental period: 7 days")
+@using (Html.BeginForm())
+{
+  @Html.Hidden("MovieId")
+  <input type="submit" value="Rent" />
+}
+
+@Html.ActionLink("Back to movie list", "Index")

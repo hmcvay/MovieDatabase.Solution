@@ -1,8 +1,9 @@
 @{
   Layout = "_Layout";
 }
-
 @using MovieDatabase.Models;
+@using System;
+
 @model List<MovieDatabase.Models.Movie>
 
 <h1>Rentable Movies</h1>
@@ -16,11 +17,11 @@ else
   <ul>
   @foreach (Movie movie in Model)
   {
-    <li>@Html.ActionLink($"{movie.Title}", "Details", new { id = movie.MovieId })</li>
+    <li>checked out? @movie.IsCheckedOut</li>
+    <li>@Html.ActionLink($"{movie.Title}", "Details", new { id = movie.MovieId })</li> 
   }
   </ul>
 }
-
 
 <p>@Html.ActionLink("Add new movie", "Create")</p>
 <p>@Html.ActionLink("Home", "Index", "Home")</p>
